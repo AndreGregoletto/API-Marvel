@@ -18,6 +18,8 @@ return new class extends Migration
             $table->char('title')->nullable();
             $table->char('description')->nullable();
             $table->char('type');
+            $table->char('series')->nullable();
+            $table->char('comics')->nullable();
             $table->timestamps();
         });
     }

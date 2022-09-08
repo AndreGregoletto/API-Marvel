@@ -12,6 +12,8 @@ class Marvel extends Model
     protected $fillable  = [
         'title',
         'description',
-        'type'
+        'type',
+        'series',
+        'comics'
     ];
 }

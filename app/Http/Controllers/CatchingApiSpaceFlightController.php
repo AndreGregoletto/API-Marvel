@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Nette\Utils\DateTime;
 use Psy\TabCompletion\Matcher\KeywordsMatcher;
+use Psy\Util\Json;
 
 class CatchingApiSpaceFlightController extends Controller
 {
@@ -22,20 +23,29 @@ class CatchingApiSpaceFlightController extends Controller
         $hash   = hash('md5', $string);
 
         $response = Http::get('http://gateway.marvel.com/v1/public/stories?ts='.$timestamp.'&apikey='.$publicKey.'&hash='.$hash);
+        // dd($response->json());
 
         $marvel = $response->json();
+        // dd($marvel['data']['results']);
         $marvel = $marvel['data']['results'];
 
         foreach ($marvel as $universe) {
             // dd($universe['type']);
-            $teste = [
+            // dd($universe['comics']['items'][0]['name']);
+            $create = [
                 'title'       => $universe['title'],
                 'description' => $universe['description'],
                 'type'        => $universe['type'],
+                'series'      => $universe['series']['items'][0]['name'],
+                'comics'      => $universe['comics']['items'][0]['name']
             ];
-
-            Marvel::create($teste);
+            // dd($teste);
+            // Marvel::create($create);
         }
 
+        $dataBase = Marvel::get();
+        // $teste = json_encode($dataBase);
+        // dd($teste);
+        // return response()->json($dataBase, 200);
     }
 }
