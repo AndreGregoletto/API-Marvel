@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Marvel\RequestCreate;
+use App\Http\Requests\Marvel\RequestUpdate;
 use App\Models\Marvel;
 use Illuminate\Http\Request;
 
@@ -9,9 +11,8 @@ class MarvelApiController extends Controller
 {
     public function getAllHq()
     {
-        $hqs = Marvel::get()->toJson(JSON_PRETTY_PRINT);
-        // dd('entrou');
-        return response($hqs, 200);
+        $hqs = Marvel::get();
+        return response()->json($hqs, 200);
     }
 
     public function getHq($id)
@@ -20,44 +21,27 @@ class MarvelApiController extends Controller
             $hq = Marvel::where('id', $id)->get()->toJson(JSON_PRETTY_PRINT);
             return response($hq, 200);
         }else{
-            return response()->json([
-                "message" => "Não encontrado"
-            ], 404);
+            return response()->json(["message" => "Não encontrado"], 404);
         }
     }
 
-    public function createHq(Request $request){
-        $hq = new Marvel;
-        $hq->title       = $request->title;
-        $hq->description = $request->description;
-        $hq->type        = $request->type;
-        $hq->series      = $request->series;
-        $hq->comics      = $request->comics;
-        $hq->save();
+    public function createHq(RequestCreate $request)
+    {
+        $hqs = $request->validated();
+        Marvel::create($hqs);
 
-        return response()->json([
-            "message" => "Hq Criada com sucesso"
-        ], 201);
+        return response()->json(["message" => "Hq Criada com sucesso"], 201);
     }
 
-    public function updateHq(Request $request, $id)
+    public function updateHq(RequestUpdate $request, $id)
     {
-        if(Marvel::where('id', $id)->exists()){
-            $hq = Marvel::find($id);
-            $hq->title       = is_null($request->title) ? $hq->title : $request->title;
-            $hq->description = is_null($request->description) ? $hq->description : $request->description;
-            $hq->type        = is_null($request->type) ? $hq->type : $request->type;
-            $hq->series      = is_null($request->series) ? $hq->series : $request->series;
-            $hq->comics      = is_null($request->comics) ? $hq->comics : $request->comics;
-            $hq->save();
+        if(isset($request)){
+            $hqs = $request->validated();
+            Marvel::where('id', $id)->update($hqs);
 
-            return response()->json([
-                "message" => "Dados atualizados com sucesso"
-            ], 200);
+            return response()->json(["message" => "Dados atualizados com sucesso"], 200);
         }else{
-            return response()->json([
-                "message" => "Hq não encontrada"
-            ], 404);
+            return response()->json(["message" => "HQ Not Found"], 404);
         }
     }
 
@@ -72,7 +56,7 @@ class MarvelApiController extends Controller
             ], 202);
         }else{
             return response()->json([
-                "message" => "Hq não encontrada"
+                "message" => "HQ Not Found"
             ], 404);
         }
     }

@@ -23,6 +23,5 @@ Route::prefix('marvel')->group(function () {
     Route::put('hq/{id}', [MarvelApiController::class, 'updateHq']);
     
     // Deletando um dado
-    Route::delete('hq/{id}', [MarvelApiController::class, ['deleteHq']]);
+    Route::delete('hq/{id}', [MarvelApiController::class, 'deleteHq']);
 });
-
