@@ -8,13 +8,13 @@ use App\Models\Marvel;
 
 class MarvelApiController extends Controller
 {
-    public function getAllHq()
+    public function getAll()
     {
         $hqs = Marvel::get();
         return response()->json($hqs, 200);
     }
 
-    public function getHq($id)
+    public function getOne($id)
     {
         if(Marvel::where('id', $id)->exists()){
             $hq = Marvel::where('id', $id)->get()->toJson(JSON_PRETTY_PRINT);
@@ -24,7 +24,7 @@ class MarvelApiController extends Controller
         }
     }
 
-    public function createHq(RequestCreate $request)
+    public function create(RequestCreate $request)
     {
         $hqs = $request->validated();
         Marvel::create($hqs);
@@ -32,7 +32,7 @@ class MarvelApiController extends Controller
         return response()->json(["message" => "Hq Criada com sucesso"], 201);
     }
 
-    public function updateHq(RequestUpdate $request, $id)
+    public function update(RequestUpdate $request, $id)
     {
         if(isset($request)){
             $hqs = $request->validated();
@@ -44,7 +44,7 @@ class MarvelApiController extends Controller
         }
     }
 
-    public function deleteHq($id)
+    public function delete($id)
     {
         if(Marvel::where('id', $id)->exists()){
             $hq = Marvel::find($id);

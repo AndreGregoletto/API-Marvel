@@ -1,27 +1,30 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarvelApiController;
 use App\Http\Controllers\CatchingApiSpaceFlightController;
 
 
-Route::prefix('marvel')->group(function () {
-    // Consumindo API
-    Route::get('consumo', [CatchingApiSpaceFlightController::class, 'apiConsume']);
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function(){
+    Route::get('user', [AuthController::class, 'user']);
     
-    // Pegando todos dados
-    Route::get('hq', [MarvelApiController::class, 'getAllHq']);
+    Route::prefix('marvel')->group(function () {
+        Route::get('consumo', [CatchingApiSpaceFlightController::class, 'apiConsume']);
+        
+        Route::get('hq', [MarvelApiController::class, 'getAll']);
+        
+        Route::get('hq/{id}', [MarvelApiController::class, 'getOne']);
+        
+        Route::post('hq', [MarvelApiController::class, 'create']);
+        
+        Route::put('hq/{id}', [MarvelApiController::class, 'update']);
+        
+        Route::delete('hq/{id}', [MarvelApiController::class, 'delete']);
+    });
     
-    // Pegando um dado
-    Route::get('hq/{id}', [MarvelApiController::class, 'getHq']);
-    
-    // Criando um dado
-    Route::post('hq', [MarvelApiController::class, 'createHq']);
-    
-    // Atualizando um dado
-    Route::put('hq/{id}', [MarvelApiController::class, 'updateHq']);
-    
-    // Deletando um dado
-    Route::delete('hq/{id}', [MarvelApiController::class, 'deleteHq']);
+    Route::post('logout', [AuthController::class, 'logout']);
 });
