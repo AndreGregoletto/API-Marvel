@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Marvel\RequestCreate;
 use App\Http\Requests\Marvel\RequestUpdate;
 use App\Models\Marvel;
-use Illuminate\Http\Request;
 
 class MarvelApiController extends Controller
 {
