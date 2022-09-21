@@ -4,9 +4,10 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarvelApiController;
 use App\Http\Controllers\CatchingApiSpaceFlightController;
-
+use App\Http\Controllers\Mail\SendController;
 
 Route::post('register', [AuthController::class, 'register']);
+
 Route::post('login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function(){
@@ -28,3 +29,5 @@ Route::middleware('auth:sanctum')->group(function(){
     
     Route::post('logout', [AuthController::class, 'logout']);
 });
+
+Route::get('forgot-password', [SendController::class, 'send']);
