@@ -43,4 +43,9 @@ class AuthController extends Controller
             'message' => 'Success'
         ])->withCookie($cookie);
     }
+
+    public function forgotPassword()
+    {
+        
+    }
 }

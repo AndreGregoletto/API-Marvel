@@ -31,3 +31,5 @@ Route::middleware('auth:sanctum')->group(function(){
 });
 
 Route::get('forgot-password', [SendController::class, 'send']);
+
+// Route::get();

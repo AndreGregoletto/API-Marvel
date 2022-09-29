@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Http\Requests\Mail\Request;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -21,7 +20,8 @@ class SendMailUser extends Mailable
      */
     public function __construct($MailRequest, $userData)
     {
-        $this->dataRequest = $userData;
+        $updateData = User::where('id', $userData[0]['id'])->get();
+        $this->dataRequest = $updateData;
     }
 
     /**
@@ -31,7 +31,7 @@ class SendMailUser extends Mailable
      */
     public function build()
     {
-        return $this->from($this->dataRequest[0]->email)
-            ->markdown('emails.orders.shipped', ['dataRequest' => $this->dataRequest]);
+        return $this->from('laraveltestsendemail@gmail.com')
+                    ->markdown('emails.orders.shipped', ['dataRequest' => $this->dataRequest]);
     }
 }

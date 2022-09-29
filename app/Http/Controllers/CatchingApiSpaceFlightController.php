@@ -36,7 +36,7 @@ class CatchingApiSpaceFlightController extends Controller
                 'comics'      => $universe['comics']['items'][0]['name']
             ];
 
-            // Marvel::create($create);
+            Marvel::create($create);
         }
     }
 }
