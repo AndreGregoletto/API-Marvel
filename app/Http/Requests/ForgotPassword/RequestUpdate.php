@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\ForgotPassword;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RequestUpdate extends FormRequest
@@ -28,5 +29,6 @@ class RequestUpdate extends FormRequest
             'token'    => 'required', 
             'password' => 'required'
         ];
+        
     }
 }

@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Marvel;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Nette\Utils\DateTime;
-use Psy\TabCompletion\Matcher\KeywordsMatcher;
-use Psy\Util\Json;
 
-class CatchingApiSpaceFlightController extends Controller
+class CatchingApiMarvelController extends Controller
 {
     public function apiConsume()
     {
