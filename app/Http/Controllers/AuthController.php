@@ -14,7 +14,8 @@ class AuthController extends Controller
 {
     public function register(RequestCreate $requestCreate)
     {
-        return User::create($requestCreate->validated());
+        User::create($requestCreate->validated());
+        return response(['message' => 'User has create at success'], 200);
     }
 
     public function login(RequestCreate $requestCreate)
@@ -29,7 +30,7 @@ class AuthController extends Controller
         $cookie = cookie('jwt', $token, 68 * 24); // 1 Day
 
         return response([
-            'message' => 'Success'
+            'message' => 'login successfully'
         ])->withCookie($cookie);
     }
 
@@ -43,7 +44,7 @@ class AuthController extends Controller
         $cookie = Cookie::forget('jwt');
 
         return response([
-            'message' => 'Success'
+            'message' => 'Lougout Successfully'
         ])->withCookie($cookie);
     }
 
@@ -51,7 +52,8 @@ class AuthController extends Controller
     {
         $userData    = $requestUpdate->validated();
         $newPassword = [
-            'password' => Hash::make($userData['password'])
+            'password' => Hash::make($userData['password']),
+            'token'    => null
         ];
 
         $userRecover = User::where('email', $userData['email'])
@@ -61,7 +63,7 @@ class AuthController extends Controller
         User::where('id', $userRecover[0]['id'])->update($newPassword);
         
         return response([
-            'message' => 'Success'
+            'message' => 'Password has modify at successfully'
         ], 200);
     }
 }

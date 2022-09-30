@@ -35,5 +35,7 @@ class CatchingApiMarvelController extends Controller
 
             Marvel::create($create);
         }
+
+        return response(['API consume successfully '], 200);
     }
 }

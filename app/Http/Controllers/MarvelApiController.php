@@ -16,47 +16,25 @@ class MarvelApiController extends Controller
 
     public function getOne($id)
     {
-        if(Marvel::where('id', $id)->exists()){
-            $hq = Marvel::where('id', $id)->get()->toJson(JSON_PRETTY_PRINT);
-            return response($hq, 200);
-        }else{
-            return response()->json(["message" => "Não encontrado"], 404);
-        }
+        $hq = Marvel::where('id', $id)->get();
+        return response()->json($hq, 200);
     }
 
     public function create(RequestCreate $request)
     {
-        $hqs = $request->validated();
-        Marvel::create($hqs);
-
+        Marvel::create($request->validated());
         return response()->json(["message" => "Hq Criada com sucesso"], 201);
     }
 
     public function update(RequestUpdate $request, $id)
     {
-        if(isset($request)){
-            $hqs = $request->validated();
-            Marvel::where('id', $id)->update($hqs);
-
-            return response()->json(["message" => "Dados atualizados com sucesso"], 200);
-        }else{
-            return response()->json(["message" => "HQ Not Found"], 404);
-        }
+        Marvel::where('id', $id)->updated($request->validated());
+        return response()->json(["message" => "Dados atualizados com sucesso"], 200);
     }
 
     public function delete($id)
     {
-        if(Marvel::where('id', $id)->exists()){
-            $hq = Marvel::find($id);
-            $hq->delete();
-
-            return response()->json([
-                "message" => "Hq deletada com sucesso"
-            ], 202);
-        }else{
-            return response()->json([
-                "message" => "HQ Not Found"
-            ], 404);
-        }
+        Marvel::find($id)->delete();
+        return response()->json(["message" => "Hq deletada com sucesso"], 202);
     }
 }

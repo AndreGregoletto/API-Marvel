@@ -15,8 +15,7 @@ class SendController extends Controller
     public function send(MailRequest $mailRequest)
     {
         $mailRequest = $mailRequest->validated();
-
-        $userData = User::where('email', $mailRequest['email'])->get();
+        $userData    = User::where('email', $mailRequest['email'])->get();
 
         if(User::where('email', $mailRequest)->exists()){
 
@@ -27,9 +26,9 @@ class SendController extends Controller
             User::where('email', $mailRequest['email'])->update($generateToken);
 
             Mail::to($mailRequest['email'])->send(new SendMailUser($mailRequest, $userData));
-            return response()->json(["message" => "Success"], 200);
+            return response()->json(["message" => "Email has send at successfully"], 200);
         }else{
-            return response()->json(["message" => "Email não encontrado"], 404);
+            return response()->json(["message" => "Email not found"], 404);
         }
 
     }
